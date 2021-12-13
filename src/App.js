@@ -1,8 +1,14 @@
 import "./App.css";
 import { useState } from "react";
 import { create } from "ipfs-http-client";
+import dotenv from "dotenv";
+dotenv.config({ path: ".env" });
 
-const client = create("http://52.14.250.56:5001/api/v0");
+const DOMAIN = process.env.REACT_APP_DOMAIN;
+console.log("🚀 ~ file: App.js ~ line 9 ~ DOMAIN", DOMAIN);
+
+// const client = create(`http://${API_DOMAIN}/api/v0`);
+const client = create(`https://${DOMAIN}/api/v0`);
 
 function App() {
   const [fileUrl, updateFileUrl] = useState(``);
@@ -11,7 +17,7 @@ function App() {
 
     try {
       const added = await client.add(file);
-      const url = `https://52.14.250.56:8080/ipfs/${added.path}`;
+      const url = `https://${DOMAIN}/ipfs/${added.path}`;
       updateFileUrl(url);
     } catch (error) {
       console.log("Error uploading file: ", error);
@@ -20,7 +26,7 @@ function App() {
   return (
     <div className="App">
       <h1>IPFS Example</h1>
-      <p>{fileUrl}</p>
+      <a href={fileUrl}>{fileUrl}</a>
       <input type="file" onChange={onChange} />
       {fileUrl && <img src={fileUrl} width="600px" />}
     </div>
