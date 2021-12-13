@@ -11,7 +11,7 @@ function App() {
 
     try {
       const added = await client.add(file);
-      const url = `https://ipfs.io/ipfs/${added.path}`;
+      const url = `https://52.14.250.56:8080/ipfs/${added.path}`;
       updateFileUrl(url);
     } catch (error) {
       console.log("Error uploading file: ", error);
